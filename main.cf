@@ -1,0 +1,16 @@
+maillog_file = /dev/stdout
+
+smtpd_sasl_auth_enable = yes
+broken_sasl_auth_clients = yes
+smtpd_sasl_type = cyrus
+cyrus_sasl_config_path = /etc/postfix/sasl
+smtpd_sasl_path = smtpd
+smtpd_sasl_security_options = noanonymous
+smtpd_recipient_restrictions = permit_sasl_authenticated, reject_unauth_destination
+
+# Enable Open Relay for any domain with authenticated users
+smtpd_relay_restrictions = permit_sasl_authenticated, reject
+
+#smtpd_sasl_local_domain = example.com
+#relay_domains = hash:/etc/postfix/maps/relay_domains
+relayhost =
