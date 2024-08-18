@@ -14,3 +14,19 @@ smtpd_relay_restrictions = permit_sasl_authenticated, reject
 #smtpd_sasl_local_domain = example.com
 #relay_domains = hash:/etc/postfix/maps/relay_domains
 relayhost =
+
+smtpd_tls_cert_file = /etc/ssl/cert.pem
+smtpd_tls_key_file = /etc/ssl/privkey.pem
+smtpd_tls_CAfile = /etc/ssl/chain.pem
+
+smtpd_use_tls = yes
+smtpd_tls_security_level = may
+smtpd_tls_auth_only = yes
+smtpd_tls_loglevel = 1
+smtpd_tls_received_header = yes
+smtpd_tls_session_cache_database = btree:${data_directory}/smtpd_scache
+tls_random_source = dev:/dev/urandom
+
+smtp_tls_security_level = may
+smtp_tls_note_starttls_offer = yes
+smtp_tls_session_cache_database = btree:${data_directory}/smtp_scache
