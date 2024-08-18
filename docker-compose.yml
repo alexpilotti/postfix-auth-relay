@@ -1,0 +1,22 @@
+services:
+  nginx:
+    image: nginx:latest
+    ports:
+      - "80:80"
+    restart: always
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./certbot/conf/:/etc/letsencrypt
+      - ./certbot/www/:/var/www/certbot
+      - ./nginx/log/:/var/log/nginx
+  postfix:
+    depends_on:
+      - nginx
+    image: postfix-auth-relay
+    ports:
+      - "587:25"
+    restart: always
+    volumes:
+      - ./sasldb2:/etc/sasldb2
+      - ./spool/:/var/spool/postfix/
+      - ./certbot/conf:/etc/ssl
