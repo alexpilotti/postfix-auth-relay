@@ -30,4 +30,5 @@ EXPOSE 25
 # RUN /usr/sbin/postmap /etc/postfix/maps/relay_domains
 RUN /usr/sbin/postconf compatibility_level=3.7
 
-CMD service saslauthd start && postfix start-fg
+COPY start.sh /
+CMD /start.sh
