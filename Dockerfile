@@ -13,7 +13,9 @@ RUN apt-get update && apt-get install -y \
 RUN mkdir -p /etc/postfix /var/spool/postfix /etc/postfix/sasl /etc/postfix/maps /var/run/saslauthd
 
 COPY main.cf /etc/postfix/main.cf
+RUN chmod 644 /etc/postfix/main.cf
 COPY smtpd.conf /etc/postfix/sasl/smtpd.conf
+RUN chmod 644 /etc/postfix/sasl/smtpd.conf
 
 RUN echo "START=yes" > /etc/default/saslauthd \
     && echo "MECHANISMS=\"sasldb\"" >> /etc/default/saslauthd \
