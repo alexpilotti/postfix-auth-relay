@@ -11,8 +11,6 @@ smtpd_recipient_restrictions = permit_sasl_authenticated, reject_unauth_destinat
 # Enable Open Relay for any domain with authenticated users
 smtpd_relay_restrictions = permit_sasl_authenticated, reject
 
-#smtpd_sasl_local_domain = example.com
-#relay_domains = hash:/etc/postfix/maps/relay_domains
 relayhost =
 
 smtpd_tls_cert_file = /etc/ssl/live/smtp_host_fqdn/cert.pem
@@ -20,6 +18,7 @@ smtpd_tls_key_file = /etc/ssl/live/smtp_host_fqdn/privkey.pem
 smtpd_tls_CAfile = /etc/ssl/live/smtp_host_fqdn/chain.pem
 
 smtpd_use_tls = yes
+
 smtpd_tls_security_level = may
 smtpd_tls_auth_only = yes
 smtpd_tls_loglevel = 1
