@@ -58,8 +58,16 @@ A simple Python script to test your SMTP service by sending an email
 is included:
 
 ```console
-python3 smtp_auth_test.py smtp_host_fqdn port user@domain password email_to
+python3 smtp_auth_test.py \
+--host smtp_host_fqdn \
+--port port \
+--username user@domain \
+--password password \
+--recipient user@domain
 ```
+
+Optionally you can also add _--no-login_ or _--no-tls_ to verify if
+the SMTP service's authentication and TLS settings are properly configured.
 
 Check the docker logs for any issues:
 

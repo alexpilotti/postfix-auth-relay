@@ -1,35 +1,77 @@
+import argparse
+import sys
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
-import sys
 
-smtp_server = sys.argv[1]
-smtp_port = int(sys.argv[2])
-username = sys.argv[3]
-password = sys.argv[4]
+def parse_args():
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        '-H', '--host', required=True,
+        type=str)
+    parser.add_argument(
+        '-P', '--port', required=False,
+        type=int, default=25)
+    parser.add_argument(
+        '-u', '--username', required=True,
+        type=str)
+    parser.add_argument(
+        '-p', '--password', required=True,
+        type=str)
+    parser.add_argument(
+        '-r', '--recipient', required=False, type=str,
+        help="Recipient email, defaults to the username if not provided")
+    parser.add_argument(
+        '-s', '--sender', required=False, type=str,
+        help="Sender email, defaults to the username if not provided")
+    parser.add_argument(
+        '--no-login', required=False,
+        action='store_true',
+        help="Do not authenticate")
+    parser.add_argument(
+        '--no-tls', required=False,
+        action='store_true',
+        help="Do not use TLS")
 
-sender_email = username
+    # If no arguments are provided, print help
+    if len(sys.argv) == 1:
+        parser.print_help()
+        sys.exit(1)
+    else:
+        return parser.parse_args()
 
-recipient_email = sys.argv[5]
 
-# Create the email content
-subject = 'Test Email'
-body = 'Test body'
+def send_email(host, port, username, password, sender, recipient, no_tls,
+               no_login):
+    if not sender:
+        sender = username
+    if not recipient:
+        recipient = username
 
-msg = MIMEMultipart()
-msg['From'] = sender_email
-msg['To'] = recipient_email
-msg['Subject'] = subject
+    subject = 'Test Email'
+    body = 'Test body'
 
-msg.attach(MIMEText(body, 'plain'))
+    msg = MIMEMultipart()
+    msg['From'] = sender
+    msg['To'] = recipient
+    msg['Subject'] = subject
 
-# Send the email
-try:
-    with smtplib.SMTP(smtp_server, smtp_port) as server:
-        server.starttls()
-        server.login(username, password)
-        server.sendmail(sender_email, recipient_email, msg.as_string())
-    print("Email sent successfully.")
-except Exception as e:
-    print(f"Failed to send email: {e}")
+    msg.attach(MIMEText(body, 'plain'))
+
+    try:
+        with smtplib.SMTP(host, port) as server:
+            if not no_tls:
+                server.starttls()
+            if not no_login:
+                server.login(username, password)
+            server.sendmail(sender, recipient, msg.as_string())
+        print("Email sent successfully.")
+    except Exception as e:
+        print(f"Failed to send email: {e}")
+
+
+if __name__ == "__main__":
+    args = parse_args()
+    send_email(args.host, args.port, args.username, args.password, args.sender,
+               args.recipient, args.no_tls, args.no_login)
