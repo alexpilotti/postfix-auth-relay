@@ -15,9 +15,9 @@ smtpd_relay_restrictions = permit_sasl_authenticated, reject
 #relay_domains = hash:/etc/postfix/maps/relay_domains
 relayhost =
 
-smtpd_tls_cert_file = /etc/ssl/cert.pem
-smtpd_tls_key_file = /etc/ssl/privkey.pem
-smtpd_tls_CAfile = /etc/ssl/chain.pem
+smtpd_tls_cert_file = /etc/ssl/live/smtp_host_fqdn/cert.pem
+smtpd_tls_key_file = /etc/ssl/live/smtp_host_fqdn/privkey.pem
+smtpd_tls_CAfile = /etc/ssl/live/smtp_host_fqdn/chain.pem
 
 smtpd_use_tls = yes
 smtpd_tls_security_level = may
