@@ -27,7 +27,7 @@ msg.attach(MIMEText(body, 'plain'))
 # Send the email
 try:
     with smtplib.SMTP(smtp_server, smtp_port) as server:
-        # server.starttls()
+        server.starttls()
         server.login(username, password)
         server.sendmail(sender_email, recipient_email, msg.as_string())
     print("Email sent successfully.")
