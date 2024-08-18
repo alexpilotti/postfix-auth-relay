@@ -1,2 +1,4 @@
 sasldb2
-
+spool/
+certbot/
+nginx/log/
